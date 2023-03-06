@@ -1,0 +1,35 @@
+CREATE TABLE Games ( gameId INT PRIMARY KEY NOT NULL, season INT, week INT, gameDate DATE, gameTimeEastern TIME, homeTeamAbbr VARCHAR(10), visitorTeamAbbr VARCHAR(10));
+
+COMMIT;
+
+CREATE TABLE Plays ( gameId INT NOT NULL,playId INT NOT NULL,playDescription VARCHAR(700),quarter INT, down INT, yardsToGo INT,possessionTeam VARCHAR(10),defensiveTeam VARCHAR(10),yardlineSide VARCHAR(10),yardlineNumber INT,gameClock TIME,preSnapHomeScore INT,preSnapVisitorScore INT,passResult VARCHAR(5),penaltyYards INT,prePenaltyPlayResult INT,playResult INT,foulName1 VARCHAR(255),foulNFLId1 INT,foulName2 VARCHAR(255),foulNFLId2 INT,foulName3 VARCHAR(255),foulNFLId3 INT,absoluteYardlineNumber INT,offenseFormation VARCHAR(400),personnelO VARCHAR(400),defendersInBox INT,personnelD VARCHAR(400),dropBackType VARCHAR(400),pff_playAction INT,pff_passCoverage VARCHAR(400),pff_passCoverageType VARCHAR(400),PRIMARY KEY (gameId, playId,playDescription));
+
+COMMIT;
+
+CREATE TABLE Players ( nflId INT PRIMARY KEY NOT NULL,height VARCHAR(20),weight INT,birthDate DATE,collegeName VARCHAR(100),officialPosition VARCHAR(20),displayName VARCHAR(100));
+
+COMMIT;
+
+CREATE TABLE Scouting ( gameId INT NOT NULL,playId INT NOT NULL,nflId INT NOT NULL,pff_role VARCHAR(60),pff_positionLinedUp VARCHAR(30),pff_hit BOOLEAN,pff_hurry BOOLEAN,pff_sack BOOLEAN,pff_beatenByDefender BOOLEAN,pff_hitAllowed BOOLEAN,pff_hurryAllowed BOOLEAN,pff_sackAllowed BOOLEAN,pff_nflIdBlockedPlayer INT,pff_blockType VARCHAR(2),pff_backFieldBlock BOOLEAN,PRIMARY KEY (gameId, playId, nflId));
+
+COMMIT;
+
+CREATE TABLE Tracking_Sample_Week (gameId INT NOT NULL,playId INT NOT NULL,nflId INT,frameId INT NOT NULL,time DATETIME,jerseyNumber INT,club VARCHAR(10),playDirection VARCHAR(20),x FLOAT(10,3),y FLOAT(10,3),s FLOAT(10,3),a FLOAT(10,3),dis FLOAT(10,3),o FLOAT(10,3),dir FLOAT(10,3),event VARCHAR(60));
+
+
+ALTER TABLE Plays ADD FOREIGN KEY (gameId) REFERENCES Games(gameId) ON DELETE CASCADE;
+COMMIT;
+
+ALTER TABLE Scouting ADD FOREIGN KEY (gameId) REFERENCES Games(gameId) ON DELETE CASCADE;
+
+ALTER TABLE Scouting ADD FOREIGN KEY (nflId) REFERENCES Players(nflId) ON DELETE CASCADE;
+COMMIT;
+
+ALTER TABLE Tracking_Sample_Week ADD FOREIGN KEY (gameId) REFERENCES Games(gameId) ON DELETE CASCADE;
+
+ALTER TABLE Tracking_Sample_Week ADD FOREIGN KEY (nflId) REFERENCES Players(nflId) ON DELETE CASCADE;
+COMMIT;
+
+
+
+ 
